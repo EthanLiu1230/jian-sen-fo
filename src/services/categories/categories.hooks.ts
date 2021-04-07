@@ -1,5 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
-import queryNull from '../../hooks/query-null';
+import allowQueryNull from '../../hooks/allow-query-null';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -7,7 +7,7 @@ const { authenticate } = authentication.hooks;
 export default {
   before: {
     all: [authenticate('jwt')],
-    find: [queryNull('parentId')],
+    find: [allowQueryNull('parentId')],
     get: [],
     create: [],
     update: [],
