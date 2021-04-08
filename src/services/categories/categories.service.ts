@@ -16,6 +16,7 @@ export default function (app: Application): void {
   const options = {
     Model: createModel(app),
     paginate: app.get('paginate'),
+    multi: true, // allow service to remove multiple entry
   };
 
   // Initialize our service with any options it requires

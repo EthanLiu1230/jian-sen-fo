@@ -8,7 +8,6 @@ export default (queryField: string): Hook => {
     const {
       params: { query = {} },
     } = context;
-    console.log('query={} -> ', query);
     if (query[queryField] === 'null') {
       query[queryField] = null;
     }
