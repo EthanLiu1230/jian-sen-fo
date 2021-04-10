@@ -7,12 +7,11 @@ import { Application } from '../declarations';
 class Categories extends Model {
   id!: number;
   name!: string;
+  level!: string;
+  parentId?: number;
 
   createdAt!: string;
   updatedAt!: string;
-
-  parent?: Categories;
-  children?: Categories[];
 
   static get tableName(): string {
     return 'categories';
@@ -31,12 +30,20 @@ class Categories extends Model {
     };
   }
 
-  $beforeInsert(): void {
-    this.createdAt = this.updatedAt = new Date().toISOString();
+  async setLevelByParentId() {
+    if (!this.parentId) return;
+    const parent = await Categories.query().findById(this.parentId);
+    this.level = parent.level + 1;
   }
 
-  $beforeUpdate(): void {
+  async $beforeInsert() {
     this.updatedAt = new Date().toISOString();
+    await this.setLevelByParentId();
+  }
+
+  async $beforeUpdate() {
+    this.updatedAt = new Date().toISOString();
+    await this.setLevelByParentId();
   }
 
   static relationMappings: RelationMappingsThunk = () => ({
@@ -65,6 +72,7 @@ export default function (app: Application): typeof Categories {
             table.increments('id');
 
             table.string('name').unique();
+            table.integer('level').defaultTo(0);
 
             table.timestamp('createdAt');
             table.timestamp('updatedAt');
