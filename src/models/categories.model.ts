@@ -64,7 +64,7 @@ export default function (app: Application): typeof Categories {
           .createTable('categories', (table) => {
             table.increments('id');
 
-            table.string('name');
+            table.string('name').unique();
 
             table.timestamp('createdAt');
             table.timestamp('updatedAt');
