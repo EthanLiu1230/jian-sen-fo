@@ -78,6 +78,7 @@ export default function (app: Application): typeof Categories {
             table.timestamp('updatedAt');
 
             table.integer('parentId').references('categories.id');
+            table.unique(['parentId', 'name']);
           })
           .then(() => console.log('Created categories table')) // eslint-disable-line no-console
           .catch((e) => console.error('Error creating categories table', e)); // eslint-disable-line no-console
