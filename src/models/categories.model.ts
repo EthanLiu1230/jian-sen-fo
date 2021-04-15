@@ -37,7 +37,7 @@ class Categories extends Model {
   }
 
   async $beforeInsert() {
-    this.updatedAt = new Date().toISOString();
+    this.createdAt = this.updatedAt = new Date().toISOString();
     await this.setLevelByParentId();
   }
 

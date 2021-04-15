@@ -5,6 +5,11 @@ import Knex from 'knex';
 import { Application } from '../declarations';
 
 class Contents extends Model {
+  id!: number;
+  title!: string;
+  subtitle?: string;
+  body?: string;
+
   createdAt!: string;
   updatedAt!: string;
 
@@ -15,10 +20,12 @@ class Contents extends Model {
   static get jsonSchema(): JSONSchema {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['title'],
 
       properties: {
-        text: { type: 'string' },
+        title: { type: 'string' },
+        subtitle: { type: ['string', 'null'] },
+        body: { type: ['string', 'null'] },
       },
     };
   }
@@ -42,7 +49,11 @@ export default function (app: Application): typeof Contents {
         db.schema
           .createTable('contents', (table) => {
             table.increments('id');
-            table.string('text');
+
+            table.string('title');
+            table.string('subtitle');
+            table.text('body');
+
             table.timestamp('createdAt');
             table.timestamp('updatedAt');
           })
