@@ -19,19 +19,8 @@ export const upload = multer({
 export default () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return (req: Request, res: Response, next: NextFunction) => {
-    const { method } = req;
-    if (method === 'POST' || method === 'PATCH') {
-      const { files } = req;
-      const body = [];
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      for (const file of files) {
-        body.push({
-          path: file.path,
-        });
-      }
-
-      req.body = method === 'POST' ? body : body[0];
+    if (req.files) {
+      req.body = req.files;
     }
     next();
   };
