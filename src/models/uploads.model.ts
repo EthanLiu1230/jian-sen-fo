@@ -15,10 +15,10 @@ class Uploads extends Model {
   static get jsonSchema(): JSONSchema {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['path'],
 
       properties: {
-        text: { type: 'string' },
+        path: { type: 'string' },
       },
     };
   }
@@ -42,7 +42,7 @@ export default function (app: Application): typeof Uploads {
         db.schema
           .createTable('uploads', (table) => {
             table.increments('id');
-            table.string('text');
+            table.string('path');
             table.timestamp('createdAt');
             table.timestamp('updatedAt');
           })
