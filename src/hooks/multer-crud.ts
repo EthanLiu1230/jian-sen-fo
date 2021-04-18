@@ -14,7 +14,6 @@ export default (options = {}): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
     async function refineData(context: HookContext) {
       const files: Express.Multer.File[] = context.data;
-      console.log('files -> ', files);
       const uploads: UploadsDto[] = files.map(({ path }) => ({
         path,
       }));
