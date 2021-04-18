@@ -1,5 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
-import multerCrud from '../../hooks/multer-crud';
+import consumeFile from '../../hooks/consume-file';
+import removeFile from '../../hooks/remove-file';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -7,13 +8,13 @@ const { authenticate } = authentication.hooks;
 export default {
   before: {
     // all: [authenticate('jwt')],
-    all: [multerCrud()],
+    all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: [],
+    create: [consumeFile()],
+    update: [consumeFile(), removeFile()],
+    patch: [consumeFile(), removeFile()],
+    remove: [removeFile()],
   },
 
   after: {
