@@ -14,11 +14,7 @@ import { BadRequest } from '@feathersjs/errors';
  */
 export default (options = {}): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
-    async function getUploadById() {
-      return await context.app.service('uploads').get(context.id);
-    }
-
-    function setUploadsData() {
+    function refineData() {
       const files: Express.Multer.File[] = context.data;
       const uploads: UploadsDto[] = files.map(({ path }) => ({
         path,
@@ -28,20 +24,33 @@ export default (options = {}): Hook => {
 
     switch (context.method) {
       case 'create':
-        setUploadsData();
+        refineData();
         break;
       case 'remove':
-        let toRemove = await getUploadById();
-        deleteFile(toRemove.path);
+        if (context.id) {
+          let toRemove = await context.app.service('uploads').get(context.id);
+          deleteFile(toRemove.path);
+        } else {
+          const records: UploadsDto[] = await context.app
+            .service('uploads')
+            .find(context.params)
+            .then((res: { data: any }) => res.data);
+          console.log('records -> ', records);
+          await Promise.all(
+            records.map((r) => {
+              deleteFile(r.path);
+            })
+          );
+        }
         break;
       case 'update':
-        let toUpdate = await getUploadById();
+        let toUpdate = await context.app.service('uploads').get(context.id);
         deleteFile(toUpdate.path);
-        setUploadsData();
+        refineData();
         context.data = context.data[0];
         break;
       case 'patch':
-        setUploadsData();
+        refineData();
         // delete unwanted files added by multer
         const uploads: UploadsDto[] = context.data;
         await Promise.all(uploads.map(({ path }) => deleteFile(path)));
