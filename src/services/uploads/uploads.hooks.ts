@@ -1,4 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
+import { HookContext } from '@feathersjs/feathers';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -8,8 +9,20 @@ export default {
     // all: [authenticate('jwt')],
     find: [],
     get: [],
-    create: [],
-    update: [],
+    create: [
+      async (context: HookContext): Promise<HookContext> => {
+        // @ts-ignore
+        context.data = context.data.map(({ path }) => ({ path }));
+        return context;
+      },
+    ],
+    update: [
+      async (context: HookContext): Promise<HookContext> => {
+        // @ts-ignore
+        context.data = context.data.map(({ path }) => ({ path }));
+        return context;
+      },
+    ],
     patch: [],
     remove: [],
   },
@@ -34,3 +47,5 @@ export default {
     remove: [],
   },
 };
+
+const deleteFromFileSystem = (path: string) => {};

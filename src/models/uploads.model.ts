@@ -5,6 +5,8 @@ import Knex from 'knex';
 import { Application } from '../declarations';
 
 class Uploads extends Model {
+  path!: string;
+
   createdAt!: string;
   updatedAt!: string;
 
