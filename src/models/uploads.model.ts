@@ -4,6 +4,11 @@ import { JSONSchema, Model } from 'objection';
 import Knex from 'knex';
 import { Application } from '../declarations';
 
+export class UploadsDto {
+  path!: string;
+  id?: number;
+}
+
 class Uploads extends Model {
   path!: string;
 

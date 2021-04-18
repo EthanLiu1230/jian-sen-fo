@@ -1,5 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
-import { HookContext } from '@feathersjs/feathers';
+import multerCrud from '../../hooks/multer-crud';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -7,22 +7,11 @@ const { authenticate } = authentication.hooks;
 export default {
   before: {
     // all: [authenticate('jwt')],
+    all: [multerCrud()],
     find: [],
     get: [],
-    create: [
-      async (context: HookContext): Promise<HookContext> => {
-        // @ts-ignore
-        context.data = context.data.map(({ path }) => ({ path }));
-        return context;
-      },
-    ],
-    update: [
-      async (context: HookContext): Promise<HookContext> => {
-        // @ts-ignore
-        context.data = context.data.map(({ path }) => ({ path }));
-        return context;
-      },
-    ],
+    create: [],
+    update: [],
     patch: [],
     remove: [],
   },
