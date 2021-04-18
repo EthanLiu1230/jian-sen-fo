@@ -6,9 +6,7 @@ import { Hook, HookContext } from '@feathersjs/feathers';
 export default (options = {}): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
     const file: Express.Multer.File = context.data;
-    console.log('context.data -> ', context.data);
-    context.data = { path: file.path };
-    console.log('context.data -> ', context.data);
+    context.data = { path: file.path, url: file.path.replace(/^public\//, '') };
     return context;
   };
 };

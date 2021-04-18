@@ -12,8 +12,8 @@ export default {
     find: [],
     get: [],
     create: [consumeFile()],
-    update: [consumeFile(), removeFile()],
-    patch: [consumeFile(), removeFile()],
+    update: [removeFile(), consumeFile()],
+    patch: [removeFile(), consumeFile()],
     remove: [removeFile()],
   },
 

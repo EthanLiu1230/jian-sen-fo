@@ -4,13 +4,9 @@ import { JSONSchema, Model } from 'objection';
 import Knex from 'knex';
 import { Application } from '../declarations';
 
-export class UploadsDto {
-  path!: string;
-  id?: number;
-}
-
 class Uploads extends Model {
   path!: string;
+  url!: string;
 
   createdAt!: string;
   updatedAt!: string;
@@ -22,10 +18,11 @@ class Uploads extends Model {
   static get jsonSchema(): JSONSchema {
     return {
       type: 'object',
-      required: ['path'],
+      required: ['path', 'url'],
 
       properties: {
         path: { type: 'string' },
+        url: { type: 'string' },
       },
     };
   }
@@ -50,6 +47,7 @@ export default function (app: Application): typeof Uploads {
           .createTable('uploads', (table) => {
             table.increments('id');
             table.string('path');
+            table.string('url');
             table.timestamp('createdAt');
             table.timestamp('updatedAt');
           })
