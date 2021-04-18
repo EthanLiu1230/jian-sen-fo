@@ -4,5 +4,5 @@ import multerUpload, { upload } from './multer-setup';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
 export default function (app: Application): void {
-  app.use('/uploads', upload.array('files'), multerUpload());
+  app.post('/uploads', upload.array('files'), multerUpload());
 }

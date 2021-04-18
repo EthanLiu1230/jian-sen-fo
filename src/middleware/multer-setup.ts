@@ -42,6 +42,7 @@ export default () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return (req: Request, res: Response, next: NextFunction) => {
     if (req.files) {
+      console.log('req.files -> ', req.files);
       req.body = req.files;
     }
     next();
