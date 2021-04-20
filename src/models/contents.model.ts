@@ -5,7 +5,6 @@ import Knex from 'knex';
 import { Application } from '../declarations';
 
 class Contents extends Model {
-  id!: number;
   title!: string;
   subtitle?: string;
   body?: string;

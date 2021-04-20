@@ -5,7 +5,6 @@ import Knex from 'knex';
 import { Application } from '../declarations';
 
 class Categories extends Model {
-  id!: number;
   name!: string;
   level!: string;
   parentId?: number;
