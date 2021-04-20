@@ -2,7 +2,12 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { Hook, HookContext } from '@feathersjs/feathers';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/**
+ * This hook allow client to query field with `?filedName=null`.
+ * Notice that 'null' is in format of String.
+ *
+ * @param queryField
+ */
 export default (queryField: string): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
     const {

@@ -1,13 +1,15 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { JSONSchema, Model } from 'objection';
+import { JSONSchema, Model, RelationMappings } from 'objection';
 import Knex from 'knex';
 import { Application } from '../declarations';
+import { Uploads } from './uploads.model';
 
-class Contents extends Model {
+export class Contents extends Model {
   title!: string;
   subtitle?: string;
   body?: string;
+  images?: Uploads[];
 
   createdAt!: string;
   updatedAt!: string;
@@ -36,6 +38,14 @@ class Contents extends Model {
   $beforeUpdate(): void {
     this.updatedAt = new Date().toISOString();
   }
+
+  static relationMappings: RelationMappings = {
+    images: {
+      relation: Model.HasManyRelation,
+      modelClass: Uploads,
+      join: { from: 'contents.id', to: 'uploads.contentId' },
+    },
+  };
 }
 
 export default function (app: Application): typeof Contents {

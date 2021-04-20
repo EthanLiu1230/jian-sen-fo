@@ -1,10 +1,10 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { JSONSchema, Model, RelationMappingsThunk } from 'objection';
+import { JSONSchema, Model, RelationMappings } from 'objection';
 import Knex from 'knex';
 import { Application } from '../declarations';
 
-class Categories extends Model {
+export class Categories extends Model {
   name!: string;
   level!: string;
   parentId?: number;
@@ -45,7 +45,7 @@ class Categories extends Model {
     await this.setLevelByParentId();
   }
 
-  static relationMappings: RelationMappingsThunk = () => ({
+  static relationMappings: RelationMappings = {
     parent: {
       relation: Model.BelongsToOneRelation,
       modelClass: Categories,
@@ -56,7 +56,7 @@ class Categories extends Model {
       modelClass: Categories,
       join: { from: 'categories.id', to: 'categories.parentId' },
     },
-  });
+  };
 }
 
 export default function (app: Application): typeof Categories {
@@ -72,12 +72,12 @@ export default function (app: Application): typeof Categories {
 
             table.string('name');
             table.integer('level').defaultTo(0);
+            table.integer('parentId').references('categories.id');
+
+            table.unique(['parentId', 'name']);
 
             table.timestamp('createdAt');
             table.timestamp('updatedAt');
-
-            table.integer('parentId').references('categories.id');
-            table.unique(['parentId', 'name']);
           })
           .then(() => console.log('Created categories table')) // eslint-disable-line no-console
           .catch((e) => console.error('Error creating categories table', e)); // eslint-disable-line no-console

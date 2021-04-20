@@ -1,12 +1,14 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { JSONSchema, Model } from 'objection';
+import { JSONSchema, Model, RelationMappings } from 'objection';
 import Knex from 'knex';
 import { Application } from '../declarations';
+import { Contents } from './contents.model';
 
-class Uploads extends Model {
+export class Uploads extends Model {
   path!: string;
   url!: string;
+  contentId?: number;
 
   createdAt!: string;
   updatedAt!: string;
@@ -23,6 +25,7 @@ class Uploads extends Model {
       properties: {
         path: { type: 'string' },
         url: { type: 'string' },
+        contentId: { type: ['string', 'null'] },
       },
     };
   }
@@ -34,6 +37,14 @@ class Uploads extends Model {
   $beforeUpdate(): void {
     this.updatedAt = new Date().toISOString();
   }
+
+  static relationMappings: RelationMappings = {
+    content: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: Contents,
+      join: { from: 'uploads.contentId', to: 'contents.id' },
+    },
+  };
 }
 
 export default function (app: Application): typeof Uploads {
@@ -46,8 +57,11 @@ export default function (app: Application): typeof Uploads {
         db.schema
           .createTable('uploads', (table) => {
             table.increments('id');
+
             table.string('path');
             table.string('url');
+            table.integer('contentId').references('contents.id');
+
             table.timestamp('createdAt');
             table.timestamp('updatedAt');
           })
