@@ -9,5 +9,8 @@
   },
   "exclude": [
     "test"
+  ],
+  "include": [
+    "node_modules/**/types/*.d.ts"
   ]
 }
