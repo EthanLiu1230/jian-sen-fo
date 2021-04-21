@@ -41,7 +41,7 @@ function checkFileType(
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (req.file) {
-      req.body = req.file;
+      Object.assign(req.body, req.file);
     }
     next();
   };

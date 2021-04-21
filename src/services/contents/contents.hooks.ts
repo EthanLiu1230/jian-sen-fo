@@ -1,4 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
+import { HookContext } from '@feathersjs/feathers';
+import popInResult from '../../hooks/pop-in-result';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -18,7 +20,12 @@ export default {
   after: {
     all: [],
     find: [],
-    get: [],
+    get: [
+      (context: HookContext) =>
+        popInResult('images', 'uploads', {
+          contentId: context.result.id,
+        })(context),
+    ],
     create: [],
     update: [],
     patch: [],

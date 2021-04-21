@@ -1,5 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
-import { consumeFile, removeFile } from '../../hooks/uploads-hooks';
+import { consumeForm, removeFile } from '../../hooks/uploads-hooks';
 
 // Don't remove this comment. It's needed to format import lines nicely.
 
@@ -11,9 +11,9 @@ export default {
     all: [],
     find: [],
     get: [],
-    create: [consumeFile()],
-    update: [removeFile(), consumeFile()],
-    patch: [removeFile(), consumeFile()],
+    create: [consumeForm()],
+    update: [removeFile(), consumeForm()],
+    patch: [removeFile(), consumeForm()],
     remove: [removeFile()],
   },
 

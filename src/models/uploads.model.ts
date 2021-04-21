@@ -20,12 +20,12 @@ export class Uploads extends Model {
   static get jsonSchema(): JSONSchema {
     return {
       type: 'object',
-      required: ['path', 'url'],
+      required: ['path', 'url', 'contentId'],
 
       properties: {
         path: { type: 'string' },
         url: { type: 'string' },
-        contentId: { type: ['string', 'null'] },
+        contentId: { type: 'integer' },
       },
     };
   }
@@ -60,7 +60,7 @@ export default function (app: Application): typeof Uploads {
 
             table.string('path');
             table.string('url');
-            table.integer('contentId').references('contents.id');
+            table.integer('contentId').references('contents.id').notNullable();
 
             table.timestamp('createdAt');
             table.timestamp('updatedAt');
