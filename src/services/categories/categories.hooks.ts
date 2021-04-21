@@ -1,5 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
 import allowQueryNull from '../../hooks/allow-query-null';
+import { popChildren } from '../../hooks/categories-hooks';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -20,7 +21,7 @@ export default {
   after: {
     all: [],
     find: [],
-    get: [],
+    get: [popChildren()],
     create: [],
     update: [],
     patch: [],

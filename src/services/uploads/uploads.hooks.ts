@@ -1,6 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
-import consumeFile from '../../hooks/consume-file';
-import removeFile from '../../hooks/remove-file';
+import { consumeFile, removeFile } from '../../hooks/uploads-hooks';
+
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -37,5 +37,3 @@ export default {
     remove: [],
   },
 };
-
-const deleteFromFileSystem = (path: string) => {};
